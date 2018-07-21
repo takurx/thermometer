@@ -12,7 +12,7 @@ float NTCThermistor_res(int B, int R0 ,float T1, float T2){
 }
  
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(38400);
  
   // 0-100℃までの抵抗値/温度リストを生成
   for (int i =0; i < 100; i++){
