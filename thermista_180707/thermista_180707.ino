@@ -1,8 +1,14 @@
+#include <Streaming.h>
+#include <PString.h>
+
 // 抵抗値/温度リスト
 float rtLsit[100]; 
 // 抵抗分圧用の10kΩ抵抗
 int R1 = 10000; 
- 
+
+char serialBuffer[4800];
+PString serialStr(serialBuffer, sizeof(serialBuffer));
+
 // NTCサーミスタの現在温度から抵抗値を算出する
 // B:B定数 R0:基準温度(T1)での抵抗値 T1:基準温度 T2:現在温度 
 float NTCThermistor_res(int B, int R0 ,float T1, float T2){
@@ -22,39 +28,39 @@ void setup() {
 }
  
 void loop() {
- 
+  analogReadResolution(10);
+  serialStr << "test, ADC 10bit: " << analogRead(A0) << ", ";
+  
   // アナログ入力の値を電圧(V)に変換
   float voltage = (analogRead(A0) / 1024.0) * 3.3;
  
-  Serial.print("Voltage_in: ");
-  Serial.print(voltage);
-  Serial.print("V Resistor_Val: ");
- 
+  serialStr << "Voltage_in: " << voltage << "V Resistor_Val: ";
+  
   // サーミスタの抵抗値
   float resistance = voltage / (3.3 - voltage) * R1;
   if(resistance > 999){
-    Serial.print(resistance / 1000);
-    Serial.print("k");      
+    serialStr << resistance / 1000 << "k";
   }else{
-    Serial.print(resistance);
+    serialStr << resistance;
   }    
-  Serial.print("Ohm ");        
- 
+  serialStr << "Ohm ";
+  
   // サーミスタの周辺温度
-  Serial.print("Tempurature: ");    
+  serialStr << "Tempurature: ";
   for (int i =0; i < 100; i++){
     if (resistance == rtLsit[i]){
-      Serial.print(i);    
-      Serial.print("deg.");    
+      serialStr << i << "deg.";
       break;
     }
     if (resistance > rtLsit[i]){
-      Serial.print(i-1);    
-      Serial.print("deg.");    
+      serialStr << i-1 << "deg.";
       break;
     }    
   }
-  Serial.println("");    
+
+  serialStr << endl;
+  Serial.print(serialStr);
+  serialStr = "";
   
   delay(1000);
 }
