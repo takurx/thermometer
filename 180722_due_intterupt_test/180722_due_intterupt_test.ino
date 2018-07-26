@@ -7,9 +7,10 @@ void UART_Handler (void) __attribute__ ((weak));
 
 void UART_Handler(void) { 
 	digitalWrite(LED_BUILTIN, HIGH);
-	Serial.begin(250000);
+	//Serial.begin(250000);
 	Serial.println("hello");
 	Serial.end();
+	data = UART->UART_RHR;
 	/*
 	if (UART->UART_SR & UART_SR_RXRDY) {
     data = UART->UART_RHR;
@@ -57,9 +58,10 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   //digitalWrite(LED_BUILTIN, HIGH);
   digitalWrite(LED_BUILTIN, LOW);
-
-  //Serial.begin(250000);
-  //Serial.println("test");
+  
+  attachInterrupt(0, UART_Handler, FALLING);
+  Serial.begin(250000);
+  Serial.println("test");
   //Serial.end();
 }
 

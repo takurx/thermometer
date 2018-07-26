@@ -29,13 +29,6 @@ void setup()
 void loop()
 {
 
-
-}
-*/
-
-/*
-* Serial.c
-*
 * Created: 28/09/2016 09:51:56
 * Author : Xx_YoloSw4Ger420BlazzzSnoop_xX (my real name, no fake)
 */
@@ -43,6 +36,13 @@ void loop()
 #include "sam.h"
 
 ///////////////////////////////
+
+}
+*/
+
+/*
+* Serial.c
+*
 //////////Configuration////////
 ///////////////////////////////
 static void configure_uart(void)
